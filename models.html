@@ -93,7 +93,7 @@ mark{background:var(--hl);color:inherit;padding:0 .12em;border-radius:3px;-webki
   <dl>
     <dt>Capture</dt><dd>One road (about 160 m) from clip 065, ridden both ways: 16:47 to 18:15 heading south-east, and 11:15 to 13:05 heading north-west.</dd>
     <dt>Views</dt><dd>9 views per frame: <mark>6 level plus 3 tilted 30° down</mark> to cover the road. The down views face away from the rider, so no masks are needed. 3 frames per second, 594 frames.</dd>
-    <dt>COLMAP</dt><dd>5346 images, two rigs, own pair list that also matches the two directions to each other</dd>
+    <dt>COLMAP</dt><dd><mark>5346 / 5346 images registered</mark> with the COLMAP global mapper, 0.65 px reprojection error. Own pair list that also matches the two directions to each other.</dd>
     <dt>Training</dt><dd>150,000 iterations, 2 million Gaussians</dd>
   </dl>
   <p class="pending">Model link will be added when training finishes.</p>
@@ -126,7 +126,7 @@ mark{background:var(--hl);color:inherit;padding:0 .12em;border-radius:3px;-webki
     <tbody>
       <tr><td>Feature extraction</td><td>2.5 min</td><td>1.2 min</td><td>4.2 min</td></tr>
       <tr><td>Matching</td><td>55.5 min</td><td>27.6 min</td><td>35.9 min</td></tr>
-      <tr><td>Mapper (camera poses)</td><td><mark>261 min</mark></td><td><mark>240 min</mark></td><td class="pending">running</td></tr>
+      <tr><td>Mapper (camera poses)</td><td><mark>261 min</mark></td><td><mark>240 min</mark></td><td><mark>101 min</mark> (global mapper)</td></tr>
       <tr><td>Training, 30,000 iterations</td><td>53.3 min</td><td>42.0 min</td><td class="pending">150,000 planned</td></tr>
       <tr><td><b>Total</b></td><td><b>6.2 h</b></td><td><b>5.2 h</b></td><td class="pending">&nbsp;</td></tr>
       <tr><td>Video length</td><td>4 min 25 s</td><td>1 min 35 s</td><td>3 min 18 s</td></tr>
@@ -134,12 +134,13 @@ mark{background:var(--hl);color:inherit;padding:0 .12em;border-radius:3px;-webki
   </table></div>
   <ul>
     <li><mark>The mapper takes 70 to 77% of the total time.</mark> It is the stage to speed up first.</li>
+    <li><mark>Road test: the incremental mapper was stopped after 6 h 13 min with only 44% of frames placed. The global mapper placed all 5346 images in 101 min</mark> (0.65 px reprojection error, GPS alignment error 3.9 m).</li>
     <li>066B has half the images of 065A but almost the same mapper time. Denser frames (3 per second) mean more matches per image.</li>
     <li>Training is under an hour. The quality check below also scores the model at 7,000 iterations, to see how much quality a 10 minute preview loses.</li>
   </ul>
   <p><b>Ideas to test for speed</b></p>
   <ul>
-    <li>COLMAP global mapper instead of the incremental mapper (built into COLMAP 4)</li>
+    <li>COLMAP global mapper instead of the incremental mapper: <mark>tested on the road test, see above</mark></li>
     <li>Use the GPS track as a starting point for camera positions</li>
     <li>Split a long route into short sections and process them side by side</li>
     <li>Fewer frames where the vehicle is slow (keep about 0.6 m between frames)</li>
