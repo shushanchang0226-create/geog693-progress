@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>UC Campus 3DGS Models</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one column of model cards, then findings and the plan for comparing them. */
+:root{
+  --hl:#ffe680; --bg:#f3f5f1; --card:#ffffff; --ink:#1c2826; --muted:#5b6965; --line:#d5dbd6;
+  --teal:#178f6c; --coral:#d4572e; --sky:#2f74b8; --amber:#b9790f;
+  --display:"Barlow Condensed","Source Sans 3",system-ui,sans-serif;
+  --body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --hl:#6b5a1a; --bg:#121816; --card:#1a2220; --ink:#e4ebe8; --muted:#9aa9a4; --line:#2c3633;
+  --teal:#3cc497; --coral:#f07a52; --sky:#6aa8e6; --amber:#e8b44f; color-scheme:dark}}
+:root[data-theme="dark"]{ --hl:#6b5a1a;
+  --bg:#121816; --card:#1a2220; --ink:#e4ebe8; --muted:#9aa9a4; --line:#2c3633;
+  --teal:#3cc497; --coral:#f07a52; --sky:#6aa8e6; --amber:#e8b44f; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.65;
+  padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:860px;margin:0 auto;display:grid;gap:20px}
+h1{font-family:var(--display);font-size:clamp(34px,6vw,50px);line-height:1.05;margin:0;text-wrap:balance}
+header p{margin:8px 0 0;color:var(--muted);max-width:64ch}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px clamp(16px,3vw,26px);display:grid;gap:12px;min-width:0}
+.top{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 14px}
+.top h2{margin:0;font-size:22px}
+.tag{font-family:var(--mono);font-size:12px;padding:2px 9px;border-radius:99px;border:1px solid currentColor}
+.tag.done{color:var(--teal)} .tag.run{color:var(--amber)}
+dl{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin:0;font-size:15.5px}
+dt{color:var(--muted);font-family:var(--mono);font-size:12.5px;padding-top:3px;white-space:nowrap}
+dd{margin:0;min-width:0}
+.btn{justify-self:start;display:inline-flex;gap:8px;align-items:center;font-weight:600;text-decoration:none;color:#fff;background:var(--sky);padding:8px 16px;border-radius:8px}
+.btn:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.pending{color:var(--muted);font-style:italic}
+h3{margin:0;font-size:19px}
+table{border-collapse:collapse;width:100%;font-size:15.5px;min-width:520px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;color:var(--muted);font-weight:600;text-transform:uppercase}
+.tbl{overflow-x:auto}
+ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.foot{font-size:13.5px;color:var(--muted)}
+@media (max-width:480px){dl{grid-template-columns:1fr}dt{padding-top:6px}}
+.shot{display:grid;gap:6px;margin:0}
+.shot img{width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block}
+.shot figcaption{font-size:14.5px;color:var(--muted)}
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.embed{position:relative;width:100%;aspect-ratio:16/10;max-width:100%;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#0b1014}
+.embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+mark{background:var(--hl);color:inherit;padding:0 .12em;border-radius:3px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>UC Campus 3DGS Models</h1>
+  <p>3D Gaussian Splatting models from Insta360 ONE RS 1-Inch 360 video, captured by bike on the UC campus on 29 September 2026. Pipeline: 360 video → perspective views → COLMAP (rig, sequential matching) → LichtFeld Studio. <mark>Models are shown uncleaned</mark>.</p>
+</header>
+
+<section class="card">
+  <div class="top"><h2>065A, handheld</h2><span class="tag done">Done</span></div>
+  <dl>
+    <dt>Capture</dt><dd>29 Sep, about 15:30, sunny. Camera handheld. Clip 13:49 to 18:14 (4 min 25 s), one pass.</dd>
+    <dt>Views</dt><dd>6 level views (90° each), 2 frames per second, 509 frames</dd>
+    <dt>COLMAP</dt><dd><mark>3054 / 3054 images registered</mark>, one model, 0.69 px reprojection error</dd>
+    <dt>Training</dt><dd>LichtFeld Studio, 30,000 iterations, 2 million Gaussians</dd>
+  </dl>
+  <!-- SuperSplat embed: replace this iframe with the code from the scene's Embed button if it does not load -->
+  <div class="embed"><iframe src="https://superspl.at/scene/c127ab9a" title="065A 3DGS model" loading="lazy" allow="fullscreen; xr-spatial-tracking" allowfullscreen></iframe></div>
+  <a class="btn" href="https://superspl.at/scene/c127ab9a" target="_blank" rel="noopener">Open in SuperSplat ↗</a>
+</section>
+
+<section class="card">
+  <div class="top"><h2>066B, backpack</h2><span class="tag done">Done</span></div>
+  <dl>
+    <dt>Capture</dt><dd>29 Sep, about 17:14, sunny with low sun. Camera on a backpack pole. Clip 2:03 to 3:38 (95 s), one pass.</dd>
+    <dt>Views</dt><dd>6 level views (90° each), 3 frames per second, 285 frames</dd>
+    <dt>COLMAP</dt><dd><mark>1710 / 1710 images registered</mark>, one model, 0.63 px reprojection error</dd>
+    <dt>Training</dt><dd>LichtFeld Studio, 30,000 iterations, 2 million Gaussians</dd>
+  </dl>
+  <!-- SuperSplat embed: replace this iframe with the code from the scene's Embed button if it does not load -->
+  <div class="embed"><iframe src="https://superspl.at/scene/0b00edfb" title="066B 3DGS model" loading="lazy" allow="fullscreen; xr-spatial-tracking" allowfullscreen></iframe></div>
+  <a class="btn" href="https://superspl.at/scene/0b00edfb" target="_blank" rel="noopener">Open in SuperSplat ↗</a>
+</section>
+
+<section class="card">
+  <div class="top"><h2>Road test, both directions</h2><span class="tag run">In progress</span></div>
+  <dl>
+    <dt>Capture</dt><dd>One road (about 160 m) from clip 065, ridden both ways: 16:47 to 18:15 heading south-east, and 11:15 to 13:05 heading north-west.</dd>
+    <dt>Views</dt><dd>9 views per frame: <mark>6 level plus 3 tilted 30° down</mark> to cover the road. The down views face away from the rider, so no masks are needed. 3 frames per second, 594 frames.</dd>
+    <dt>COLMAP</dt><dd>5346 images, two rigs, own pair list that also matches the two directions to each other</dd>
+    <dt>Training</dt><dd>150,000 iterations, 2 million Gaussians</dd>
+  </dl>
+  <p class="pending">Model link will be added when training finishes.</p>
+</section>
+
+<section class="card">
+  <h3>What we found so far</h3>
+  <div class="shots">
+    <figure class="shot"><img src="img/065A_road_issue.jpg" alt="065A model: road surface streaky, rider's shadow left as a dark blob" loading="lazy"><figcaption>065A: the road is streaky and soft (red box). The small box is the rider's own shadow left on the path.</figcaption></figure>
+    <figure class="shot"><img src="img/066B_offpath_streaks.jpg" alt="066B model seen from above the path: grass streaks and wavy columns" loading="lazy"><figcaption>066B seen from higher than the camera and off the path: grass stretches into streaks, columns look wavy.</figcaption></figure>
+  </div>
+  <figure class="shot"><img src="img/360_frame_seams.jpg" alt="360 frame with lens centres and stitch seams marked" loading="lazy"><figcaption>Where each lens is sharpest (green) and where the two lenses are stitched (orange). Near objects across a seam misalign.</figcaption></figure>
+  <div class="tbl"><table>
+    <thead><tr><th>Issue</th><th>Cause</th><th>Change in the road test</th></tr></thead>
+    <tbody>
+      <tr><td>Road surface streaky and soft</td><td>Level views only see the ground from 2 m out, at a steep angle. Straight ahead sits on the lens seam.</td><td><mark>Add 3 views tilted 30° down</mark></td></tr>
+      <tr><td>Streaks when viewed off the path</td><td>Single pass: every point seen from one line only</td><td><mark>Use both directions of the same road</mark></td></tr>
+      <tr><td>Fine detail soft</td><td>30,000 iterations for 3054 images is about 10 views per image</td><td><mark>150,000 iterations</mark></td></tr>
+      <tr><td>GPS alignment off by up to 37 m (065A)</td><td>Video time zero is the mp4 creation time, 10 s before the file name time</td><td><mark>Fixed: alignment error now 2 to 3 m</mark></td></tr>
+      <tr><td>Dark blob on the path</td><td><mark>Rider's own shadow moves with the camera</mark></td><td>Clean in SuperSplat; capture on overcast days or at midday</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="card">
+  <h3>How the models will be compared</h3>
+  <ul>
+    <li>Same 160 m road in all models, viewed from riding height along the path and from 3 to 5 m to the side</li>
+    <li>Lane markings and the yellow box junction: readable or not, and up to what distance</li>
+    <li>Building edges, windows and columns near the lens seam</li>
+    <li>Streaks, floaters and ghosts</li>
+  </ul>
+</section>
+
+<p class="foot">Related pages: <a href="capture-guide.html">360 Bike Capture Guide</a> (field method) · <a href="shoot-check-replay.html">Shoot Check Replay</a> (weather on the capture day)</p>
+</div>
+
+</body>
+</html>
