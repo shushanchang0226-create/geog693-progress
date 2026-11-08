@@ -89,14 +89,14 @@ mark{background:var(--hl);color:inherit;padding:0 .12em;border-radius:3px;-webki
 </section>
 
 <section class="card">
-  <div class="top"><h2>Road test, both directions</h2><span class="tag run">In progress</span></div>
+  <div class="top"><h2>Road test, both directions</h2><span class="tag done">Trained</span></div>
   <dl>
     <dt>Capture</dt><dd>One road (about 160 m) from clip 065, ridden both ways: 16:47 to 18:15 heading south-east, and 11:15 to 13:05 heading north-west.</dd>
     <dt>Views</dt><dd>9 views per frame: <mark>6 level plus 3 tilted 30° down</mark> to cover the road. The down views face away from the rider, so no masks are needed. 3 frames per second, 594 frames.</dd>
     <dt>COLMAP</dt><dd><mark>5346 / 5346 images registered</mark> with the COLMAP global mapper, 0.65 px reprojection error. Own pair list that also matches the two directions to each other.</dd>
-    <dt>Training</dt><dd>150,000 iterations, 2 million Gaussians</dd>
+    <dt>Training</dt><dd>150,000 iterations, 2 million Gaussians, 139 min</dd>
   </dl>
-  <p class="pending">Model link will be added when training finishes.</p>
+  <p class="pending">Training done. Model link will be added after upload to SuperSplat.</p>
 </section>
 
 <section class="card">
@@ -127,8 +127,8 @@ mark{background:var(--hl);color:inherit;padding:0 .12em;border-radius:3px;-webki
       <tr><td>Feature extraction</td><td>2.5 min</td><td>1.2 min</td><td>4.2 min</td></tr>
       <tr><td>Matching</td><td>55.5 min</td><td>27.6 min</td><td>35.9 min</td></tr>
       <tr><td>Mapper (camera poses)</td><td><mark>261 min</mark></td><td><mark>240 min</mark></td><td><mark>101 min</mark> (global mapper)</td></tr>
-      <tr><td>Training, 30,000 iterations</td><td>53.3 min</td><td>42.0 min</td><td class="pending">150,000 planned</td></tr>
-      <tr><td><b>Total</b></td><td><b>6.2 h</b></td><td><b>5.2 h</b></td><td class="pending">&nbsp;</td></tr>
+      <tr><td>Training</td><td>53.3 min<br>(30,000 it)</td><td>42.0 min<br>(30,000 it)</td><td>139 min<br>(150,000 it)</td></tr>
+      <tr><td><b>Total</b></td><td><b>6.2 h</b></td><td><b>5.2 h</b></td><td><b>4.7 h</b></td></tr>
       <tr><td>Video length</td><td>4 min 25 s</td><td>1 min 35 s</td><td>3 min 18 s</td></tr>
     </tbody>
   </table></div>
@@ -148,16 +148,21 @@ mark{background:var(--hl);color:inherit;padding:0 .12em;border-radius:3px;-webki
 </section>
 
 <section class="card">
-  <div class="top"><h3>Quality scores</h3><span class="tag run">Running</span></div>
+  <div class="top"><h3>Quality scores</h3><span class="tag done">Done</span></div>
   <p>Standard 3DGS check: every 8th image is held out from training. The model then renders those unseen views, and each render is compared with the real photo.</p>
   <div class="tbl"><table>
     <thead><tr><th>Metric</th><th>What it measures</th><th>Better</th><th>065A<br>7k / 30k</th><th>066B<br>7k / 30k</th></tr></thead>
     <tbody>
-      <tr><td>PSNR (dB)</td><td>Pixel colour error</td><td>Higher</td><td class="pending">running</td><td class="pending">running</td></tr>
-      <tr><td>SSIM</td><td>Structure and edges, 0 to 1</td><td>Higher</td><td class="pending">running</td><td class="pending">running</td></tr>
-      <tr><td>LPIPS</td><td>How different it looks to a person, 0 to 1</td><td>Lower</td><td class="pending">after training</td><td class="pending">after training</td></tr>
+      <tr><td>PSNR (dB)</td><td>Pixel colour error</td><td>Higher</td><td>21.59 / 23.37</td><td>22.77 / <mark>24.33</mark></td></tr>
+      <tr><td>SSIM</td><td>Structure and edges, 0 to 1</td><td>Higher</td><td>0.698 / 0.752</td><td>0.749 / <mark>0.797</mark></td></tr>
+      <tr><td>LPIPS</td><td>How different it looks to a person, 0 to 1</td><td>Lower</td><td>0.458 / 0.356</td><td>0.342 / <mark>0.277</mark></td></tr>
     </tbody>
   </table></div>
+  <ul>
+    <li><mark>066B scores better than 065A on all three metrics.</mark> This matches what we see: the backpack mount is steadier and the frames are denser.</li>
+    <li>Going from 7,000 to 30,000 iterations adds about 1.6 to 1.8 dB PSNR and cuts LPIPS by 0.07 to 0.10. A quick 7k preview takes about a quarter of the training time but is clearly softer.</li>
+    <li>Test images: 382 (065A) and 214 (066B). Mean values shown. Scores for the road test model will be added next.</li>
+  </ul>
   <p class="foot">PSNR and SSIM come from LichtFeld Studio. LichtFeld 0.5.2 does not compute LPIPS, so it is computed afterwards from the saved photo and render pairs.</p>
 </section>
 
