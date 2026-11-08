@@ -119,6 +119,48 @@ mark{background:var(--hl);color:inherit;padding:0 .12em;border-radius:3px;-webki
 </section>
 
 <section class="card">
+  <h3>Processing time</h3>
+  <p>Disaster response needs models fast, so every stage is timed. All runs on one PC with an RTX 5060 GPU. Times are from the COLMAP and LichtFeld logs.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Stage</th><th>065A<br>3054 images</th><th>066B<br>1710 images</th><th>Road test<br>5346 images</th></tr></thead>
+    <tbody>
+      <tr><td>Feature extraction</td><td>2.5 min</td><td>1.2 min</td><td>4.2 min</td></tr>
+      <tr><td>Matching</td><td>55.5 min</td><td>27.6 min</td><td>35.9 min</td></tr>
+      <tr><td>Mapper (camera poses)</td><td><mark>261 min</mark></td><td><mark>240 min</mark></td><td class="pending">running</td></tr>
+      <tr><td>Training, 30,000 iterations</td><td>53.3 min</td><td>42.0 min</td><td class="pending">150,000 planned</td></tr>
+      <tr><td><b>Total</b></td><td><b>6.2 h</b></td><td><b>5.2 h</b></td><td class="pending">&nbsp;</td></tr>
+      <tr><td>Video length</td><td>4 min 25 s</td><td>1 min 35 s</td><td>3 min 18 s</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><mark>The mapper takes 70 to 77% of the total time.</mark> It is the stage to speed up first.</li>
+    <li>066B has half the images of 065A but almost the same mapper time. Denser frames (3 per second) mean more matches per image.</li>
+    <li>Training is under an hour. The quality check below also scores the model at 7,000 iterations, to see how much quality a 10 minute preview loses.</li>
+  </ul>
+  <p><b>Ideas to test for speed</b></p>
+  <ul>
+    <li>COLMAP global mapper instead of the incremental mapper (built into COLMAP 4)</li>
+    <li>Use the GPS track as a starting point for camera positions</li>
+    <li>Split a long route into short sections and process them side by side</li>
+    <li>Fewer frames where the vehicle is slow (keep about 0.6 m between frames)</li>
+  </ul>
+</section>
+
+<section class="card">
+  <div class="top"><h3>Quality scores</h3><span class="tag run">Running</span></div>
+  <p>Standard 3DGS check: every 8th image is held out from training. The model then renders those unseen views, and each render is compared with the real photo.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Metric</th><th>What it measures</th><th>Better</th><th>065A<br>7k / 30k</th><th>066B<br>7k / 30k</th></tr></thead>
+    <tbody>
+      <tr><td>PSNR (dB)</td><td>Pixel colour error</td><td>Higher</td><td class="pending">running</td><td class="pending">running</td></tr>
+      <tr><td>SSIM</td><td>Structure and edges, 0 to 1</td><td>Higher</td><td class="pending">running</td><td class="pending">running</td></tr>
+      <tr><td>LPIPS</td><td>How different it looks to a person, 0 to 1</td><td>Lower</td><td class="pending">after training</td><td class="pending">after training</td></tr>
+    </tbody>
+  </table></div>
+  <p class="foot">PSNR and SSIM come from LichtFeld Studio. LichtFeld 0.5.2 does not compute LPIPS, so it is computed afterwards from the saved photo and render pairs.</p>
+</section>
+
+<section class="card">
   <h3>How the models will be compared</h3>
   <ul>
     <li>Same 160 m road in all models, viewed from riding height along the path and from 3 to 5 m to the side</li>
